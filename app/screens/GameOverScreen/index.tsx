@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Image, Text, useWindowDimensions} from 'react-native';
 import Title from '../../components/Title';
 import COLORS from '../../../constants/colors';
 import PrimaryButton from '../../components/Button';
@@ -9,10 +9,19 @@ const GameOverScreen: FC<{
   numberGuess: number;
   onRestartGame: () => void;
 }> = ({numberRound = 1, numberGuess = 2, onRestartGame}) => {
+  const {width, height} = useWindowDimensions();
+  const imageSize = width < 380 ? 150 : height < 400 ? 80 : 300;
+
+  const imgStyle = {
+    width: imageSize,
+    height: imageSize,
+    borderRadius: imageSize / 2,
+  };
+
   return (
     <View style={styles.container}>
       <Title title="Game Over" />
-      <View style={styles.imgContainer}>
+      <View style={[styles.imgContainer, imgStyle]}>
         <Image
           style={styles.img}
           source={require('../../../assets/images/success.png')}
@@ -37,9 +46,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imgContainer: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
     borderWidth: 3,
     borderColor: COLORS.white,
     overflow: 'hidden',

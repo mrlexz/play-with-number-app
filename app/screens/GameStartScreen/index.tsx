@@ -1,5 +1,13 @@
 import React, {FC} from 'react';
-import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import PrimaryButton from '../../components/Button';
 import COLORS from '../../../constants/colors';
 import Title from '../../components/Title';
@@ -31,31 +39,35 @@ const GameStartScreen: FC<{
   };
 
   return (
-    <View style={styles.rootContainer}>
-      <Title title="Start a New Game!" />
-      <View style={styles.container}>
-        <Text style={styles.label}>Enter Number</Text>
-        <TextInput
-          style={styles.input}
-          maxLength={2}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={enteredValue}
-          onChangeText={handleInputChange}
-        />
-        <View style={styles.btnWrapper}>
-          <View style={styles.flex1}>
-            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-          </View>
-          <View style={styles.flex1}>
-            <PrimaryButton onPress={confirmInputHandler}>
-              Continue
-            </PrimaryButton>
+    <ScrollView style={styles.flex1}>
+      <KeyboardAvoidingView style={styles.flex1} behavior="position">
+        <View style={styles.rootContainer}>
+          <Title title="Start a New Game!" />
+          <View style={styles.container}>
+            <Text style={styles.label}>Enter Number</Text>
+            <TextInput
+              style={styles.input}
+              maxLength={2}
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={enteredValue}
+              onChangeText={handleInputChange}
+            />
+            <View style={styles.btnWrapper}>
+              <View style={styles.flex1}>
+                <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+              </View>
+              <View style={styles.flex1}>
+                <PrimaryButton onPress={confirmInputHandler}>
+                  Continue
+                </PrimaryButton>
+              </View>
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

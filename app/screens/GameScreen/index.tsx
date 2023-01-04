@@ -1,5 +1,12 @@
 import React, {FC, useEffect} from 'react';
-import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import Title from '../../components/Title';
 import COLORS from '../../../constants/colors';
 import NumberRandomContainer from './components/NumberRandomContainer';
@@ -28,6 +35,8 @@ const GameScreen: FC<{
   const [currentGuess, setCurrentGuess] = React.useState(() => {
     return gennerateRandomNumber(1, 100, numberChoice);
   });
+
+  const {width} = useWindowDimensions();
 
   const [guessRound, setGuessRound] = React.useState<number[]>([]);
 
@@ -75,9 +84,8 @@ const GameScreen: FC<{
     );
   };
 
-  return (
-    <View style={styles.container}>
-      <Title title="Opponent Guess" />
+  let content = (
+    <>
       <NumberRandomContainer>{currentGuess}</NumberRandomContainer>
       <View style={styles.btnWrapper}>
         <View style={styles.flex1}>
@@ -91,6 +99,33 @@ const GameScreen: FC<{
           </PrimaryButton>
         </View>
       </View>
+    </>
+  );
+
+  if (width > 500) {
+    content = (
+      <>
+        <View style={styles.btnWrapperWide}>
+          <View style={styles.flex1}>
+            <PrimaryButton onPress={() => handleNextGuess('greater')}>
+              +
+            </PrimaryButton>
+          </View>
+          <NumberRandomContainer>{currentGuess}</NumberRandomContainer>
+          <View style={styles.flex1}>
+            <PrimaryButton onPress={() => handleNextGuess('lower')}>
+              -
+            </PrimaryButton>
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Title title="Opponent Guess" />
+      {content}
       <View style={styles.listContainer}>
         <FlatList
           data={guessRound}
@@ -114,6 +149,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   btnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  btnWrapperWide: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {StyleSheet, Text, TextProps} from 'react-native';
+import {Platform, StyleSheet, Text, TextProps} from 'react-native';
 import COLORS from '../../../constants/colors';
 
 const Title: FC<
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'OpenSans-Bold',
     color: COLORS.white,
-    borderWidth: 2,
+    borderWidth: Platform.select({ios: 0, android: 2}),
     borderColor: COLORS.white,
     padding: 8,
     textAlign: 'center',
